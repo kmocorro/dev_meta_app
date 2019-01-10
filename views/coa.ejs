@@ -223,37 +223,9 @@
         <!-- sidebar menu: : style can be found in sidebar.less -->
         <ul class="sidebar-menu" data-widget="tree">
             <li class="header">MAIN NAVIGATION</li>
-            <li>
-            <a href="/">
-                <i class="fa fa-home"></i> <span>Home</span>
-            </a>
-            </li>
-            <li class="treeview">
-            <a href="#">
-                <i class="fa fa-dashboard"></i> <span>Dashboard</span>
-                <span class="pull-right-container">
-                <i class="fa fa-angle-left pull-right"></i>
-                </span>
-            </a>
-            <ul class="treeview-menu">
-                <li><a href="/hourly"><i class="ion ion-ios-close-outline" style="color:red;"></i> Hourly WIP & Outs </a></li>
-                <li><a href="/lot?type=aging"><i class="ion ion-ios-checkmark-outline" style="color:green;"></i> Aging Lots </a></li>
-                <li><a href="/reports?type=cycletime"><i class="ion ion-ios-checkmark-outline" style="color:green;"></i> Cycle Time </a></li>
-                <li><a href="/th?filename=ndep.txt"><i class="ion ion-ios-checkmark-outline" style="color:green;"></i> Tube Health </a></li>
-                <li><a href="/ost?tool=all"><i class="ion ion-ios-checkmark-outline" style="color:green;"></i> OST </a></li>
-            </ul>
-            </li>
-
-            <li class="treeview active">
-            <a href="#">
-                <i class="fa fa-edit"></i> <span>Prototype</span>
-                <span class="pull-right-container">
-                <i class="fa fa-angle-left pull-right"></i>
-                </span>
-            </a>
+            
             <ul class="treeview-menu">
                 <li class="active"><a href="/coa"><i class="ion ion-ios-checkmark-outline" style="color:green;"></i> Certificate of Analysis </a></li>
-                <li><a href="/activity"><i class="ion ion-ios-checkmark-outline" style="color:green;"></i> Engineering Activity </a></li>
             </ul>
             </li>
             <!---
@@ -533,11 +505,11 @@
                                                     <label class="coa-form-label">Supplier:</label>
                                                     <div class="form-group has-feedback">
                                                         <select class="form-control select2 select2-hidden-accessible  form-coa-interface" style="width:100%" tabindex="-1" aria-hidden="true" required name="supplier" id="supplier" >
-                                                            <option selected="selected" value="1007">ACC</option>
-                                                            <option value="1003">FERROTEC</option>
-                                                            <option value="1001">TZS</option>
-                                                            <option value="1005">ACMK</option>
-                                                            <option value="1006">LONGI</option>
+                                                            <option disabled value="1007">ACC</option>
+                                                            <option selected="selected"  value="1003">FERROTEC</option>
+                                                            <option disabled value="1001">TZS</option>
+                                                            <option disabled value="1005">ACMK</option>
+                                                            <option disabled value="1006">LONGI</option>
                                                             <option disabled>NORSUN</option>
                                                         </select>
                                                     </div>

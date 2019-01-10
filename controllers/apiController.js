@@ -1671,13 +1671,14 @@ module.exports = function(app){
                     return new Promise(function(resolve, reject){
 
                         connection.query({
-                            sql: 'SELECT B.supplier_name, A.order_no, A.username, A.upload_time, A.delivery_date FROM (SELECT id, supplier_id, upload_time, order_no, delivery_date, username FROM tbl_ingot_lot_barcodes GROUP BY order_no UNION SELECT id, supplier_id, upload_time, order_no, delivery_date, username FROM tbl_achl_ingot_v2 GROUP BY order_no UNION SELECT id, supplier_id, upload_time, order_no, delivery_date, username FROM tbl_ferrotec_ingot GROUP BY order_no UNION SELECT id, supplier_id, upload_time, order_no, delivery_date, username FROM tbl_acmk_ingot GROUP BY order_no UNION SELECT id, supplier_id, upload_time, order_no, delivery_date, username FROM tbl_longi_coa GROUP BY order_no) A JOIN (SELECT supplier_id, supplier_name FROM tbl_supplier_list) B ON A.supplier_id = B.supplier_id ORDER BY A.upload_time DESC LIMIT 8'
+                            sql: 'SELECT B.supplier_name, A.order_no, A.username, A.upload_time, A.delivery_date FROM (SELECT id, supplier_id, upload_time, order_no, delivery_date, username FROM test_table_ferrotec_ingot GROUP BY order_no) A JOIN (SELECT supplier_id, supplier_name FROM tbl_supplier_list) B ON A.supplier_id = B.supplier_id ORDER BY A.upload_time DESC LIMIT 8'
                         },  function(err, results){
                             if(err){return reject()};
 
+                            let recentActivity = [];
+
                             if(typeof results[0] !== 'undefined' && results[0] !== null && results.length > 0){
 
-                                let recentActivity = [];
 
                                 for(let i=0; i<results.length;i++){
                                     recentActivity.push({
@@ -1694,7 +1695,7 @@ module.exports = function(app){
                                 resolve(qa);
                                 
                             } else {
-                                reject();
+                                resolve(recentActivity);
                             }
 
                         });
@@ -1706,13 +1707,15 @@ module.exports = function(app){
                     return new Promise(function(resolve, reject){
 
                         connection.query({
-                            sql: 'SELECT * FROM tbl_coa_box ORDER BY id DESC LIMIT 8'
+                            sql: 'SELECT * FROM test_table_coa_box ORDER BY id DESC LIMIT 8'
                         },  function(err, results){
                             if(err){return reject()};
 
+                            let recent_activity_obj = [];
+
                             if(typeof results[0] !== 'undefined' && results[0] !== null && results.length > 0){
 
-                                let recent_activity_obj = [];
+                                
                                 
                                 for(let i=0;i<results.length;i++){
                                     if(results[i].box_id){
@@ -1732,7 +1735,7 @@ module.exports = function(app){
                                 resolve(kitting);
 
                             } else {
-                                reject();
+                                resolve(recent_activity_obj);
                             }
 
                         });
@@ -2417,7 +2420,7 @@ module.exports = function(app){
                                                             if(err){return reject()}
 
                                                             connection.query({
-                                                                sql: 'INSERT INTO tbl_ferrotec_coa SET supplier_id=?, delivery_date=?, order_no=?, upload_time=?, username=?, ingot_lot_id=?, box_id=?, wafer_qty=?, wafer_qty_difference=?, block_length=?, totalCrystal=?, seedBlock=?, MCLT_top=?, MCLT_tail=?, Res_top=?, Res_tail=?, Oi_top=?, Oi_tail=?, Cs_top=?, Cs_tail=?, Dia_ave=?, Dia_std=?, Dia_min=?, Dia_max=?, Flat_ave=?, Flat_std=?, Flat_min=?, Flat_max=?, Flat_taper_ave=?, Flat_taper_std=?, Flat_taper_min=?, Flat_taper_max=?, Corner_ave=?, Corner_std=?, Corner_min=?, Corner_max=?, Thickness_ave=?, Thickness_std=?, Thickness_min=?, Thickness_max=?, TTV_ave=?, TTV_std=?, TTV_min=?, TTV_max=?, RA_ave=?, RA_std=?, RA_min=?, RA_max=?, RZ_ave=?, RZ_std=?, RZ_min=?, RZ_max=?, Vertical_ave=?, Vertical_std=?, Vertical_min=?, Vertical_max=?, Copper_content=?, Iron_content=?, AcceptReject=?',
+                                                                sql: 'INSERT INTO test_table_ferrotec_coa SET supplier_id=?, delivery_date=?, order_no=?, upload_time=?, username=?, ingot_lot_id=?, box_id=?, wafer_qty=?, wafer_qty_difference=?, block_length=?, totalCrystal=?, seedBlock=?, MCLT_top=?, MCLT_tail=?, Res_top=?, Res_tail=?, Oi_top=?, Oi_tail=?, Cs_top=?, Cs_tail=?, Dia_ave=?, Dia_std=?, Dia_min=?, Dia_max=?, Flat_ave=?, Flat_std=?, Flat_min=?, Flat_max=?, Flat_taper_ave=?, Flat_taper_std=?, Flat_taper_min=?, Flat_taper_max=?, Corner_ave=?, Corner_std=?, Corner_min=?, Corner_max=?, Thickness_ave=?, Thickness_std=?, Thickness_min=?, Thickness_max=?, TTV_ave=?, TTV_std=?, TTV_min=?, TTV_max=?, RA_ave=?, RA_std=?, RA_min=?, RA_max=?, RZ_ave=?, RZ_std=?, RZ_min=?, RZ_max=?, Vertical_ave=?, Vertical_std=?, Vertical_min=?, Vertical_max=?, Copper_content=?, Iron_content=?, AcceptReject=?',
                                                                 values: [credentials.supplier_id, credentials.delivery_date, credentials.order_no, new Date(), verified_username, cleaned_ferrotec_sheet1[i].A, cleaned_ferrotec_sheet1[i].B, cleaned_ferrotec_sheet1[i].C, cleaned_ferrotec_sheet1[i].D, cleaned_ferrotec_sheet1[i].E, cleaned_ferrotec_sheet1[i].F, cleaned_ferrotec_sheet1[i].G, cleaned_ferrotec_sheet1[i].H, cleaned_ferrotec_sheet1[i].I, cleaned_ferrotec_sheet1[i].J, cleaned_ferrotec_sheet1[i].K, cleaned_ferrotec_sheet1[i].L, cleaned_ferrotec_sheet1[i].M, cleaned_ferrotec_sheet1[i].N, cleaned_ferrotec_sheet1[i].O, cleaned_ferrotec_sheet1[i].P, cleaned_ferrotec_sheet1[i].Q, cleaned_ferrotec_sheet1[i].R, cleaned_ferrotec_sheet1[i].S, cleaned_ferrotec_sheet1[i].T, cleaned_ferrotec_sheet1[i].U, cleaned_ferrotec_sheet1[i].V, cleaned_ferrotec_sheet1[i].W, cleaned_ferrotec_sheet1[i].X, cleaned_ferrotec_sheet1[i].Y, cleaned_ferrotec_sheet1[i].Z, cleaned_ferrotec_sheet1[i].AA, cleaned_ferrotec_sheet1[i].AB, cleaned_ferrotec_sheet1[i].AC, cleaned_ferrotec_sheet1[i].AD, cleaned_ferrotec_sheet1[i].AE, cleaned_ferrotec_sheet1[i].AF, cleaned_ferrotec_sheet1[i].AG, cleaned_ferrotec_sheet1[i].AH, cleaned_ferrotec_sheet1[i].AI, cleaned_ferrotec_sheet1[i].AJ, cleaned_ferrotec_sheet1[i].AK, cleaned_ferrotec_sheet1[i].AL, cleaned_ferrotec_sheet1[i].AM, cleaned_ferrotec_sheet1[i].AN, cleaned_ferrotec_sheet1[i].AO, cleaned_ferrotec_sheet1[i].AP, cleaned_ferrotec_sheet1[i].AQ, cleaned_ferrotec_sheet1[i].AR, cleaned_ferrotec_sheet1[i].AS, cleaned_ferrotec_sheet1[i].AT, cleaned_ferrotec_sheet1[i].AU, cleaned_ferrotec_sheet1[i].AV, cleaned_ferrotec_sheet1[i].AW, cleaned_ferrotec_sheet1[i].AX, cleaned_ferrotec_sheet1[i].AY, cleaned_ferrotec_sheet1[i].AZ, cleaned_ferrotec_sheet1[i].BA, cleaned_ferrotec_sheet1[i].BB ]
                                                             },  function(err, results){
                                                                 if(err){return reject()};
@@ -2441,7 +2444,7 @@ module.exports = function(app){
                                                             if(err){return reject()};
 
                                                             connection.query({
-                                                                sql: 'INSERT INTO tbl_ferrotec_ingot SET supplier_id=?, delivery_date=?, order_no=?, upload_time=?, username=?,ingot_lot_id=?, bundle_barcode=?',
+                                                                sql: 'INSERT INTO test_table_ferrotec_ingot SET supplier_id=?, delivery_date=?, order_no=?, upload_time=?, username=?,ingot_lot_id=?, bundle_barcode=?',
                                                                 values: [credentials.supplier_id, credentials.delivery_date, credentials.order_no, new Date(), verified_username, cleaned_ferrotec_sheet2[i].A, cleaned_ferrotec_sheet2[i].B]
                                                             },  function(err, results){
                                                                 if(err){return reject()};
@@ -3049,7 +3052,7 @@ module.exports = function(app){
                         return new Promise(function(resolve, reject){
 
                             connection.query({
-                                sql: 'SELECT * FROM tbl_coa_box WHERE box_id = ?',
+                                sql: 'SELECT * FROM test_table_coa_box WHERE box_id = ?',
                                 values: [credentials.boxid]
                             },  function(err, results){
                                 if(err){return reject(err)};
@@ -3077,7 +3080,7 @@ module.exports = function(app){
                                         for(let i=0;i<credentials.tags.length;i++){ // loop through tags
 
                                             connection.query({
-                                                sql: 'INSERT INTO tbl_coa_box SET upload_date=?, box_id=?, runcard=?, username=?',
+                                                sql: 'INSERT INTO test_table_coa_box SET upload_date=?, box_id=?, runcard=?, username=?',
                                                 values: [credentials.upload_date, credentials.boxid, credentials.tags[i], verified_username]
                                             },  function(err, results){
                                                 if(err){return reject(err)};
@@ -3374,7 +3377,7 @@ module.exports = function(app){
                                 return new Promise(function(resolve, reject){
 
                                     connection.query({
-                                        sql: 'DELETE FROM tbl_coa_box WHERE id=?',
+                                        sql: 'DELETE FROM test_table_coa_box WHERE id=?',
                                         values: [data_id]
                                     },  function(err, results){
                                         if(err){return reject()};
@@ -3460,7 +3463,7 @@ module.exports = function(app){
                                 return new Promise(function(resolve, reject){
                                     
                                     connection.query({
-                                        sql: 'UPDATE tbl_coa_box SET box_id=?, runcard=? WHERE id=?',
+                                        sql: 'UPDATE test_table_coa_box SET box_id=?, runcard=? WHERE id=?',
                                         values: [data_update.box_id, data_update.runcard, data_update.id]
                                     },  function(err, results){
                                         if(err){return reject()};
@@ -4028,7 +4031,6 @@ module.exports = function(app){
                                     }
                                 }
                                 
-
                             });
 
                         });
